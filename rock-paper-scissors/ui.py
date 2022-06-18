@@ -80,6 +80,14 @@ class UI():
         )
         self.ai_label.grid(column=3, row=0)
 
+        self.score_label = tk.Label(
+            text="Score",
+            font=LABEL_FONT,
+            highlightthickness=0,
+            bg=WINDOW_COLOR
+        )
+        self.score_label.grid(column=2, row=0)
+        
         #Buttons
         self.rock_button = tk.Button(
             text="Rock", 
