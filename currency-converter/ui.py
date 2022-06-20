@@ -22,7 +22,7 @@ class UI():
         self.window.config(bg=WINDOW_COLOR)
 
         #Currencies
-        self.currencies = ["US Dollar", "Euro", "Japanese Yen", "British Pound", "Canadian Dollar"]
+        self.currencies = ["US Dollar", "Euro", "Japanese Yen", "Korean Won", "Canadian Dollar"]
         self.option_var1 = StringVar()
         self.option_var1.set(self.currencies[0])
         self.option_var2 = StringVar()
