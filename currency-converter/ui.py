@@ -1,11 +1,12 @@
 from tkinter import *
-from turtle import width
+from PIL import Image,ImageTk
 
 TITLE_BG_COLOR = "#A5BECC"
 BUTTON_FONT = ("Impact", 15)
 ENTRY_FONT = ("Impact", 15)
-ENTRY_WIDTH = 15
+ENTRY_WIDTH = 18
 BUTTON_WIDTH = 30
+DROPDOWN_FONT = ("Times New Roman", 12, "bold")
 TITLE_FONT = ("Impact", 45, "normal")
 FROM_TO_FONT = ("Impact", 25, "normal")
 WINDOW_COLOR = "#53BF9D"
@@ -16,7 +17,7 @@ class UI():
 
         #Window
         self.window = Tk()
-        self.window.title("Conversion-tron 9000")
+        self.window.title("Converter-tron 9000")
         self.window.minsize(width=500,height=500)
         self.window.config(bg=WINDOW_COLOR)
 
@@ -26,6 +27,10 @@ class UI():
         self.option_var1.set(self.currencies[0])
         self.option_var2 = StringVar()
         self.option_var2.set(self.currencies[1])
+
+        #Images
+        arrow_png = "images/arrow_image.png"
+        self.arrow_img = self.resize_img(arrow_png)
 
         #Labels
         self.converter_title_label = Label(text="Converter-tron 9000", font=TITLE_FONT, bg=TITLE_BG_COLOR)
@@ -40,11 +45,15 @@ class UI():
         self.to_label.config(width=15)
         self.to_label.grid(column=4, row=1)
 
+        self.arrow_label = Label(image=self.arrow_img, bg=WINDOW_COLOR)
+        self.arrow_label.grid(column=2, row=1)
+        
+
         #Text Entries
-        self.from_entry = Entry(width=ENTRY_WIDTH, font=ENTRY_FONT)
+        self.from_entry = Entry(width=ENTRY_WIDTH, font=ENTRY_FONT, highlightthickness=0)
         self.from_entry.grid(column=0,row=2)
 
-        self.to_entry = Entry(width=ENTRY_WIDTH, font=ENTRY_FONT)
+        self.to_entry = Entry(width=ENTRY_WIDTH, font=ENTRY_FONT, highlightthickness=0)
         self.to_entry.grid(column=4, row=2)
 
         #Dropdown Menus
@@ -53,15 +62,15 @@ class UI():
             self.option_var1,
             *self.currencies
         )
-        self.from_menu.config(width=20, highlightthickness=0)
+        self.from_menu.config(width=20, highlightthickness=0, font=DROPDOWN_FONT,pady=10)
         self.from_menu.grid(column=0, row=3)
 
         self.to_menu = OptionMenu(
             self.window,
-            self.option_var1,
+            self.option_var2,
             *self.currencies
         )
-        self.to_menu.config(width=20, highlightthickness=0)
+        self.to_menu.config(width=20, highlightthickness=0, font=DROPDOWN_FONT,pady=10)
         self.to_menu.grid(column=4, row=3)
 
         #Buttons
@@ -78,3 +87,11 @@ class UI():
 
 
         self.window.mainloop()
+    
+    #Functions
+
+    def resize_img(self, image):
+        img = (Image.open(image))
+        resized_image = img.resize((75,75), Image.ANTIALIAS)
+        new_image = ImageTk.PhotoImage(resized_image)
+        return new_image
