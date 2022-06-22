@@ -168,7 +168,7 @@ class UI():
                 self.player_score += 1
         elif player_choice == "scissors":
             if ai_choice == "rock":
-                self.player_score += 1
+                self.ai_score += 1
             elif ai_choice == "paper":
                 self.player_score += 1
         self.score_canvas.itemconfig(self.score, text=f"{self.player_score}:{self.ai_score}")
