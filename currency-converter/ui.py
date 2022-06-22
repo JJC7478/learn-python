@@ -1,5 +1,6 @@
 from tkinter import *
 from PIL import Image,ImageTk
+from converter import Converter
 
 TITLE_BG_COLOR = "#A5BECC"
 BUTTON_FONT = ("Impact", 15)
@@ -23,9 +24,9 @@ class UI():
 
         #Currencies
         self.currencies = ["US Dollar", "Euro", "Japanese Yen", "Korean Won", "Canadian Dollar"]
-        self.option_var1 = StringVar()
+        self.option_var1 = StringVar(self.window)
         self.option_var1.set(self.currencies[0])
-        self.option_var2 = StringVar()
+        self.option_var2 = StringVar(self.window)
         self.option_var2.set(self.currencies[1])
 
         #Images
@@ -50,10 +51,12 @@ class UI():
         
 
         #Text Entries
-        self.from_entry = Entry(width=ENTRY_WIDTH, font=ENTRY_FONT, highlightthickness=0)
+        self.from_entry = Entry(self.window, width=ENTRY_WIDTH, font=ENTRY_FONT, highlightthickness=0)
+        self.from_entry.insert(0, "0")
         self.from_entry.grid(column=0,row=2)
 
         self.to_entry = Entry(width=ENTRY_WIDTH, font=ENTRY_FONT, highlightthickness=0)
+        self.to_entry.insert(0, "0")
         self.to_entry.grid(column=4, row=2)
 
         #Dropdown Menus
@@ -73,11 +76,14 @@ class UI():
         self.to_menu.config(width=20, highlightthickness=0, font=DROPDOWN_FONT,pady=10)
         self.to_menu.grid(column=4, row=3)
 
+        #Converter 
+        self.converter = Converter()
+
         #Buttons
-        self.convert_button = Button(text="Convert", width=BUTTON_WIDTH, font=BUTTON_FONT)
+        self.convert_button = Button(text="Convert", width=BUTTON_WIDTH, font=BUTTON_FONT, command=self.convert)
         self.convert_button.grid(column=2, row=4)
 
-        self.clear_button = Button(text="Clear",  width=BUTTON_WIDTH, font=BUTTON_FONT)
+        self.clear_button = Button(text="Clear",  width=BUTTON_WIDTH, font=BUTTON_FONT, command=self.clear)
         self.clear_button.grid(column=2, row=5)
 
 
@@ -95,3 +101,23 @@ class UI():
         resized_image = img.resize((75,75), Image.ANTIALIAS)
         new_image = ImageTk.PhotoImage(resized_image)
         return new_image
+    
+    def callback(selection):
+        return selection
+    
+    def convert(self):
+        self.to_entry.delete(0,END)
+        value = str(round(
+            self.converter.convert(
+            n1=float((self.from_entry.get())), 
+            type1=self.option_var1.get(), 
+            type2=self.option_var2.get()
+        ),3)
+        )
+        self.to_entry.insert(0, value)
+    
+    def clear(self):
+        self.from_entry.delete(0,END)
+        self.to_entry.delete(0,END)
+        self.from_entry.insert(0, "0")
+        self.to_entry.insert(0, "0")
